@@ -1,0 +1,8 @@
+\RequirePackage{expl3}
+\ProvidesExplPackage {mynotes} {2020-01-26} {0.0.1} {
+  A custom class for my notetaking
+}
+
+\RequirePackage { xparse }
+\RequirePackage { etoolbox }
+

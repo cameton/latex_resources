@@ -1,0 +1,124 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mymathdefs}[2020/01/23 A package for my personal LaTex work]
+
+\RequirePackage{etoolbox}
+
+% Options
+
+\newtoggle{ref}
+\newtoggle{code}
+
+\DeclareOption{ref}{
+  \toggletrue{ref}
+}
+\DeclareOption{code}{
+  \toggletrue{code}
+}
+\ProcessOptions
+
+
+% Math
+
+\RequirePackage{mathtools}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{cases}
+
+% Figures, quotes, and code
+
+\RequirePackage{booktabs}
+\RequirePackage{graphicx}
+\RequirePackage{subcaption}
+\iftoggle{code}{
+  \RequirePackage{minted}
+}
+\RequirePackage{csquotes}
+\RequirePackage{tikz}
+
+% References
+
+\iftoggle{ref}{
+  \RequirePackage{biblatex}
+  \RequirePackage{hyperref}
+  \RequirePackage{tocbibind}
+}
+
+% Definitions
+
+\newrobustcmd{\isdefd}[1]{
+  \ifcsdef{#1}{
+    Command #1 is defined.
+  }{
+    Command #1 is not defined.
+  }
+}
+
+% Symbols and shorthand
+\newrobustcmd{\dumb}{\,\vysmblkcircle\,}
+\newrobustcmd\eqdist{\stackrel{\mathrm{d}}{=}}
+
+\newrobustcmd{\Nat}{\mathbb{N}}
+\newrobustcmd{\Int}{\mathbb{Z}}
+\newrobustcmd{\Rat}{\mathbb{Q}}
+\newrobustcmd{\Real}{\mathbb{R}}
+\newrobustcmd{\Complex}{\mathbb{C}}
+
+\newrobustcmd\Cat[1]{\mathbf{#1}}
+
+% Math operators
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator\Span{Span}
+\DeclareMathOperator\Null{Null}
+\DeclareMathOperator\Exp{Exp}
+\DeclareMathOperator\Var{Var}
+\DeclareMathOperator\Cov{Cov}
+\DeclareMathOperator\Corr{Corr}
+
+% Delimiters based on Mathtools documentation
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiterX\norm[1]\lVert\rVert{
+  \ifblank{#1}{\dumb}{#1}
+}
+
+\DeclarePairedDelimiterX\innerp[2]\langle\rangle{
+  \ifblank{#1}{\dumb}{#1}, \ifblank{#2}{\dumb}{#2}
+}
+
+\DeclarePairedDelimiterX\opair[2]\lparen\rparen{
+  \ifblank{#1}{\dumb}{#1}, \ifblank{#2}{\dumb}{#2}
+}
+
+\newrobustcmd\LstSep[2][]{
+  \mathchoice{\;}{\;}{\,}{\,}#1#2
+  \allowbreak
+  \mathchoice{\;}{\;}{\,}{\,}
+  \mathopen{}
+}
+\newrobustcmd\LLstSep[2][]{
+  #1#2
+  \allowbreak
+  \mathchoice{\;}{\;}{\,}{\,}
+  \mathopen{}
+}
+
+\providerobustcmd\given{}
+\providerobustcmd\fix{}
+\providerobustcmd\st{}
+\newrobustcmd\Exprs[2][]{
+  \renewrobustcmd\given{\LstSep[#1]{\vert}}
+  \renewrobustcmd\fix{\LLstSep{;}}
+  \renewrobustcmd\st{\LstSep{\text{:}}}
+  #2
+}
+
+\newrobustcmd\SpLst[2][]{
+  \mathchoice{\,}{\,}{}{}\Lst[#1]{#2}\mathchoice{\,}{\,}{}{}
+}
+
+\DeclarePairedDelimiterX\Set[1]\lbrace\rbrace{\SpLst[\delimsize]{#1}}
+\DeclarePairedDelimiterX\Seq[1]\lparen\rparen{\SpLst[\delimsize]{#1}}
+\DeclarePairedDelimiterX\Trm[1]\lbrack\rbrack{\SpLst[\delimsize]{#1}}
+
+

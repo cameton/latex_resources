@@ -1,7 +1,82 @@
+
+%%%%%%%% Identification
+
 \RequirePackage{expl3}
 \ProvidesExplPackage {mymathdefs} {2020-01-26} {0.0.1} {
   Some math definitions I use a lot
 }
 
+%%%%%%%% Preliminary
+
 \RequirePackage { xparse }
 \RequirePackage { etoolbox }
+
+%%%%%%%% Options
+%%%%%%%% Declarations
+
+\ProvideDocumentCommand \csdefd { m }
+{
+    \ifcsdef{#1}{command~#1~is~defined.}{command~#1~is~not~defined.}
+}
+
+\RequirePackage { mathtools }
+
+\ProvideDocumentCommand \ConSep { O{} m } {
+  \mathchoice{\;}{\;}{\,}{\,}#1#2
+  \allowbreak
+  \mathchoice{\;}{\;}{\,}{\,}
+  \mathopen{}
+}
+
+\ProvideDocumentCommand \LConSep { O{} m } {
+  #1#2
+  \allowbreak
+  \mathchoice{\;}{\;}{\,}{\,}
+  \mathopen{}
+}
+
+\ProvideDocumentCommand \given {} {}
+\ProvideDocumentCommand \fix {} {}
+\ProvideDocumentCommand \st {} {}
+\ProvideDocumentCommand \soforth {} {}
+\ProvideDocumentCommand \blank {} {}
+
+\ProvideDocumentCommand \Content { O{} m } {
+  \RenewDocumentCommand \given {} { \ConSep[#1]{\vert} }
+  \RenewDocumentCommand \fix {} { \LConSep{;} }
+  \RenewDocumentCommand \st {} { \ConSep{\text{:}} }
+  \RenewDocumentCommand \soforth {} { \ldots }
+  \RenewDocumentCommand \blank {} { \,\vysmblkcircle\, }
+  #2
+}
+
+\DeclarePairedDelimiterX \cs [1] \lbrace \rbrace {
+  \Content[\delimsize]{#1} }
+\DeclarePairedDelimiterX \ps [1] \lparen \rparen {
+  \Content[\delimsize]{#1} }
+\DeclarePairedDelimiterX \as [1] \langle \rangle {
+  \Content[\delimsize]{#1} }
+\DeclarePairedDelimiterX \bs [1] \lbrack \rbrack {
+  \Content[\delimsize]{#1} }
+\DeclarePairedDelimiterX \vs [1] \lvert \rvert { \Content[\delimsize]{#1} }
+\DeclarePairedDelimiterX \Vs [1] \lVert \rVert { \Content[\delimsize]{#1} }
+
+\DeclareMathOperator { \E } { E }
+\DeclareMathOperator { \Var } { Var }
+\DeclareMathOperator { \Cov } { Cov }
+\DeclareMathOperator { \Corr } { Corr }
+\DeclareMathOperator { \Span } { Span }
+\DeclareMathOperator { \Null } { Null }
+
+\DeclareMathOperator* { \argmax } { arg\,max }
+\DeclareMathOperator* { \argmin } { arg\,min }
+
+\ProvideDocumentCommand \Nat {} { \mathbb{N} }
+\ProvideDocumentCommand \Int {} { \mathbb{Z} }
+\ProvideDocumentCommand \Rat {} { \mathbb{Q} }
+\ProvideDocumentCommand \Real {} { \mathbb{R} }
+\ProvideDocumentCommand \Complex {} { \mathbb{C} }
+
+\ProvideDocumentCommand \Cat { m } { \mathbf{#1} }
+
+\ProvideDocumentCommand \eqdist {} { \stackrel{\mathrm{d}}{=} }
