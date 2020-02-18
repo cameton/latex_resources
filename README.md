@@ -1,2 +1,2 @@
-# mydocs
-A collection of random notes, documents, and package/class files.
+# latex_resources
+Various .sty and .cls files that I use for my documents.
